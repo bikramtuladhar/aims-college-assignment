@@ -1,7 +1,16 @@
 <?php
 
+/**
+ *
+ */
 class Router
 {
+    /**
+     * @param $app_route
+     * @param $app_callback
+     *
+     * @return void
+     */
     public static function get($app_route, $app_callback)
     {
         if ( strcasecmp($_SERVER['REQUEST_METHOD'], 'GET') !== 0 ) {
@@ -11,6 +20,12 @@ class Router
         self::on($app_route, $app_callback);
     }
 
+    /**
+     * @param $app_route
+     * @param $app_callback
+     *
+     * @return void
+     */
     public static function post($app_route, $app_callback)
     {
         if ( strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') !== 0 ) {
@@ -20,20 +35,26 @@ class Router
         self::on($app_route, $app_callback);
     }
 
-    public static function on($exprr, $call_back)
+    /**
+     * @param $expression
+     * @param $call_back
+     *
+     * @return void
+     */
+    public static function on($expression, $call_back)
     {
-        $paramtrs = $_SERVER['REQUEST_URI'];
-        $paramtrs = (stripos($paramtrs, "/") !== 0) ? "/".$paramtrs : $paramtrs;
-        $exprr    = str_replace('/', '\/', $exprr);
-        $matched  = preg_match('/^'.($exprr).'$/', $paramtrs, $is_matched, PREG_OFFSET_CAPTURE);
+        $parameters = $_SERVER['REQUEST_URI'];
+        $parameters = (stripos($parameters, "/") !== 0) ? "/".$parameters : $parameters;
+        $expression = str_replace('/', '\/', $expression);
+        $matched    = preg_match('/^'.($expression).'$/', $parameters, $is_matched, PREG_OFFSET_CAPTURE);
 
         if ( $matched ) {
             array_shift($is_matched);
-            $paramtrs = array_map(function ($paramtr) {
+            $parameters = array_map(function ($paramtr) {
                 return $paramtr[0];
             }, $is_matched);
 
-            $call_back($paramtrs);
+            $call_back($parameters);
         }
     }
 }

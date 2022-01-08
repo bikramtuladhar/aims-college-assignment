@@ -1,9 +1,6 @@
 <?php
 require 'Event.php';
 
-/**
- *
- */
 class EventController
 {
     /**
@@ -11,9 +8,6 @@ class EventController
      */
     private $event;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->event = new Event();

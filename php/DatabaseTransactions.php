@@ -1,13 +1,25 @@
 <?php
 
+/**
+ *
+ */
 class DatabaseTransactions extends PDOStatement
 {
+    /**
+     * @var
+     */
     private $connection;
 
     public function __construct()
     {
     }
 
+    /**
+     * @param $id
+     * @param $event_name
+     *
+     * @return bool
+     */
     public function insert($id, $event_name)
     {
         $sql = "INSERT INTO events(id, event_name) VALUES (?, ?)";
@@ -29,6 +41,11 @@ class DatabaseTransactions extends PDOStatement
         }
     }
 
+    /**
+     * @param $id
+     *
+     * @return array|false|mixed
+     */
     public function select($id = null)
     {
         if ( isset($id) ) {
@@ -64,6 +81,12 @@ class DatabaseTransactions extends PDOStatement
         }
     }
 
+    /**
+     * @param $event_name
+     * @param $id
+     *
+     * @return bool
+     */
     public function update($event_name, $id)
     {
         $sql = "UPDATE events set event_name = ? WHERE id = ?";
@@ -83,6 +106,11 @@ class DatabaseTransactions extends PDOStatement
         }
     }
 
+    /**
+     * @param $id
+     *
+     * @return bool
+     */
     public function delete($id)
     {
         $sql = "DELETE FROM events WHERE id = ?";
@@ -101,6 +129,9 @@ class DatabaseTransactions extends PDOStatement
         }
     }
 
+    /**
+     * @return PDOConfig
+     */
     private function connection()
     {
         return new PDOConfig();

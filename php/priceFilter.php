@@ -1,25 +1,27 @@
 <?php
+/**
+ * @param array $priceList
+ * @param       $limit
+ *
+ * @return array
+ */
 function higherThan(array $priceList, $limit)
 {
-    $higherThan = [];
-    foreach ( $priceList as $key => $value ) {
-        if ( $value > $limit ) {
-            $higherThan[$key] = $value;
-        }
-    }
-
-    return $higherThan;
+    return array_filter($priceList, function ($price) use ($limit) {
+        return $price > $limit;
+    });
 }
 
+/**
+ * @param $priceList
+ * @param $limit
+ *
+ * @return int|mixed
+ */
 function sumOfHigherThan($priceList, $limit)
 {
-    $sum = 0;
-    foreach ( $priceList as $key => $value ) {
-        if ( $value > $limit ) {
-            $sum += $value;
-        }
-    }
+    $array = higherThan($priceList, $limit);
 
-    return $sum;
+    return array_sum(array_values($array));
 }
 

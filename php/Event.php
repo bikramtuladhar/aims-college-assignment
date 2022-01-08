@@ -1,16 +1,38 @@
 <?php
 require 'DatabaseTransactions.php';
 require 'PDOConfig.php';
+
+/**
+ *
+ */
 class Event
 {
+    /**
+     * @var
+     */
     public $event_name;
+    /**
+     * @var
+     */
     public $id;
+    /**
+     * @var
+     */
     private $db;
 
+    /**
+     *
+     */
     public function __construct()
     {
     }
 
+    /**
+     * @param $id
+     * @param $event_name
+     *
+     * @return string
+     */
     public function addEvent($id, $event_name)
     {
         $event_name = filter_var($event_name, FILTER_UNSAFE_RAW);
@@ -21,10 +43,13 @@ class Event
         if ( $inserted ) {
             return "Successfully inserted";
         } else {
-            return "Something went wrong insertion didnot happen";
+            return "Something went wrong insertion didn't happen";
         }
     }
 
+    /**
+     * @return array|mixed|string[]
+     */
     public function viewEvents()
     {
         $db     = new DatabaseTransactions();
@@ -36,6 +61,11 @@ class Event
         }
     }
 
+    /**
+     * @param $id
+     *
+     * @return array|mixed|string[]
+     */
     public function viewEvent($id)
     {
         $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
@@ -49,6 +79,12 @@ class Event
         }
     }
 
+    /**
+     * @param $id
+     * @param $event_name
+     *
+     * @return bool
+     */
     public function editEvent($id, $event_name)
     {
         $event_name = filter_var($event_name, FILTER_UNSAFE_RAW);
@@ -63,6 +99,11 @@ class Event
         }
     }
 
+    /**
+     * @param $id
+     *
+     * @return string
+     */
     public function deleteEvent($id)
     {
         $id     = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
