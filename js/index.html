@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS Assignment</title>
+
+    <style>
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+<h1>JS Assignments</h1>
+<div>
+    <h2>a. Change the class name of any dom elements</h2>
+    <div>
+        <h3 id="element1" class="green">Element with class name green</h3>
+        <button onclick="classNameTo('green','red')">Change to red</button>
+    </div>
+</div>
+
+<div>
+    <h2>b. Get datasets from dom elements</h2>
+    <div>
+        <h3 id="datasetElement" data-hello="hello" data-world="world">Element with hello world as dataset</h3>
+        <span id="datasetResult"></span>
+        <button onclick="getDataSet()">Click here to extract dataset from element</button>
+    </div>
+</div>
+
+<div>
+    <h2>c. Inject new dom element</h2>
+    <div>
+        <h3 id="h3append">Click on append /prepend button to append new span element</h3>
+        <button onclick="appendSpan()">Append</button>
+        <button onclick="prependSpan()">Prepend</button>
+    </div>
+</div>
+
+
+<div>
+    <h2>d. Make both ajax and get request</h2>
+    <div>
+        <span id="username"></span>
+        <button onclick="getGithubUsername()">Click here to get my github username</button>
+
+        <form method="post" onsubmit="postRequest()">
+            <label for="user"> Username</label>
+            <input id="user" type="text" name="user">
+            <input type="submit" onsubmit="postRequest()" value="Post">
+        </form>
+    </div>
+</div>
+
+
+<div>
+    <h2>e. Get and set values from input box/checkbox/select dropdown</h2>
+    <label for="input">input</label>
+    <input type="text" id="input" value="hello world">
+    <button onclick="alert($('#input').val())">Get</button>
+    <button onclick="$('#input').val('world hello')">set</button>
+
+    <br>
+    <label for="select">select box</label>
+    <select id="select">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+    <button onclick="alert($('#select').val())">Get</button>
+    <button onclick="$('#select').val('2')">set</button>
+
+
+    <br>
+    <label for="vehicle1"> Bike
+        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" checked>
+    </label>
+
+    <button onclick="alert($('#vehicle1').prop('checked'))">Get</button>
+    <button onclick="$('#vehicle1').prop('checked',false)">set</button>
+
+</div>
+
+
+<div>
+    <h2>2. Make 3 POST requests at the same time which needs to be resolved all at the same time.</h2>
+    <div>
+        check console log for output
+        <button onclick="promisePostRequest()">POST REQUEST</button>
+    </div>
+</div>
+
+
+<div>
+    <h2>3. Assume we have a SPAN element with some texts in it. Create a clipboard copy feature for that SPAN without using any library.</h2>
+    <div>
+        <span id="clipboard">Hello world</span>
+        <button onclick="copyClipBoard('clipboard')">Copy to clipboard</button>
+    </div>
+</div>
+
+
+<div>
+    <h2>4. Create a very simple two-way binding feature</h2>
+    <div>
+        <label for="name">Name:</label>
+        <input id="name" class="name" type="text">
+        <label for="name2">Name:</label>
+        <input id="name2" class="name" type="text">
+        <hr/>
+        <label for="age1">Age:</label>
+        <input id="age1" class="age" type="text">
+        <label for="age2">Age:</label>
+        <input id="age2" class="age" type="text">
+    </div>
+</div>
+
+
+<script src="jquery.js"></script>
+<script src="network.js"></script>
+<script src="twowaybinding.js"></script>
+<script src="custom.js"></script>
+</body>
+</html>
