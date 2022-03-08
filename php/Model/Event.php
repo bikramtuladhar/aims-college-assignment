@@ -1,6 +1,6 @@
 <?php
-require 'DatabaseTransactions.php';
-require 'PDOConfig.php';
+require '../Utils/DatabaseTransactions.php';
+require '../Config/PDOConfig.php';
 
 /**
  *

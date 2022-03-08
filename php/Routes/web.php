@@ -1,10 +1,4 @@
 <?php
-require 'Router.php';
-require 'xmlToJson.php';
-require 'priceFilter.php';
-require 'EventController.php';
-
-
 Router::get('/', function () {
     echo "
     <h1> welcome </h1>

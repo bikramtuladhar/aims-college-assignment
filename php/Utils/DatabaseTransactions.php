@@ -10,9 +10,6 @@ class DatabaseTransactions extends PDOStatement
      */
     private $connection;
 
-    public function __construct()
-    {
-    }
 
     /**
      * @param $id

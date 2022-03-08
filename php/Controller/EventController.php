@@ -1,5 +1,5 @@
 <?php
-require 'Event.php';
+require '../Model/Event.php';
 
 class EventController
 {
