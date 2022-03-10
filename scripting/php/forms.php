@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,80 +9,18 @@
 <?php
 $errors = [];
 
-function maxValue(&$errors, $fieldName, $limit, $value)
-{
-    if ( strlen($value) > $limit ) {
-        $errors[$fieldName][] = "{$fieldName} should not exceed $limit.";
-    }
+include 'validation.php';
+include "database.php";
+$postData = $_POST;
+if ( isset($_GET['edit']) && isset($_GET['id']) ) {
+    $result   = query($pdo, 'students', "id={$_GET['id']}");
+    $postData = $result[0] ?? [];
 }
-
-function minValue(&$errors, $fieldName, $limit, $value)
-{
-    if ( strlen($value) < $limit ) {
-        $errors[$fieldName][] = "{$fieldName} should exceed $limit.";
-    }
-}
-
-function required(&$errors, $fieldName, $value)
-{
-    if ( empty($_POST[$fieldName]) ) {
-        $errors[$fieldName][] = "{$fieldName} is required";
-    }
-}
-
-function getError($errors, $fieldName)
-{
-    if ( isset($errors[$fieldName]) ) {
-        return $errors[$fieldName];
-    }
-
-    return [];
-}
-
-function email(&$errors, $fieldName, $value)
-{
-    $re  = '/([a-zA-Z-0-9]+)(@)([a-zA-Z-0-9]+)\.([a-zA-Z-0-9]+)/';
-    $str = $_POST[$fieldName];
-
-    preg_match_all($re, $str, $matches, PREG_SET_ORDER, 0);
-    $email = $matches[0][0] ?? '';
-    if ( $email !== $str ) {
-        $errors[$fieldName][] = "{$fieldName} is not a valid email address";
-    }
-}
-
-function validation(&$errors)
-{
-    $rules = [
-        'first_name' => ['required', 'maxValue:20', 'minValue:3'],
-        'last_name'  => ['required', 'minValue:2', 'maxValue:30'],
-        'email'      => ['required', 'email'],
-        'phone'      => ['required'],
-    ];
-    foreach ( $rules as $fieldName => $rulesArray ) {
-        foreach ( $rulesArray as $rule ) {
-            $ruleName = explode(':', $rule, 2)[0];
-            $params   = [&$errors, $fieldName, explode(':', $rule, 2)[1] ?? ''];
-
-            if ( isset($_POST[$fieldName]) ) {
-                $params[] = $_POST[$fieldName];
-            } else {
-                $params[] = '';
-            }
-            call_user_func_array($ruleName, $params);
-        }
-    }
-}
-
-if ( !empty($_POST) ) {
-    validation($errors);
-}
-
 ?>
 <form method="post" action="forms.php">
     <div>
         <label for="first_name">First Name</label>
-        <input type="text" name="first_name" id="first_name" value="<?php echo $_POST['first_name'] ?? '' ?>">
+        <input type="text" name="first_name" id="first_name" value="<?php echo $postData['first_name'] ?? '' ?>">
         <?php foreach ( getError($errors, 'first_name') as $error ) { ?>
             <br>
             <span style="color: darkred;"><?php echo $error ?></span>
@@ -91,7 +29,7 @@ if ( !empty($_POST) ) {
     </div>
     <div>
         <label for="last_name">Last Name</label>
-        <input type="text" name="last_name" id="last_name" value="<?php echo $_POST['last_name'] ?? '' ?>">
+        <input type="text" name="last_name" id="last_name" value="<?php echo $postData['last_name'] ?? '' ?>">
         <?php foreach ( getError($errors, 'last_name') as $error ) { ?>
             <br>
             <span style="color: darkred;"><?php echo $error ?></span>
@@ -101,7 +39,7 @@ if ( !empty($_POST) ) {
 
     <div>
         <label for="email">Email</label>
-        <input type="text" name="email" id="email" value="<?php echo $_POST['email'] ?? '' ?>">
+        <input type="text" name="email" id="email" value="<?php echo $postData['email'] ?? '' ?>">
         <?php foreach ( getError($errors, 'email') as $error ) { ?>
             <br>
             <span style="color: darkred;"><?php echo $error ?></span>
@@ -111,13 +49,20 @@ if ( !empty($_POST) ) {
 
     <div>
         <label for="phone">Phone</label>
-        <input type="number" name="phone" id="phone" value="<?php echo $_POST['phone'] ?? '' ?>">
+        <input type="number" name="phone" id="phone" value="<?php echo $postData['phone'] ?? '' ?>">
         <?php foreach ( getError($errors, 'phone') as $error ) { ?>
             <br>
             <span style="color: darkred;"><?php echo $error ?></span>
             <br>
         <?php } ?>
     </div>
+
+    <?php
+
+    if ( isset($_GET['edit']) && isset($_GET['id']) ) {
+        echo "<input type='hidden' value='true' name='edit'>";
+    }
+    ?>
 
     <div>
         <input type="submit" name="submit">
@@ -126,9 +71,12 @@ if ( !empty($_POST) ) {
 
 <div>
     <table border="1">
+        <caption>Current submitted values</caption>
         <thead>
-        <th>Field</th>
-        <th>Value</th>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
         </thead>
         <tbody>
         <?php if ( count(array_values($_POST)) ) {
@@ -145,6 +93,12 @@ if ( !empty($_POST) ) {
         <?php } ?>
         </tbody>
     </table>
+
+    <br>
+    <div>
+        Click
+        <button onclick="window.location.href='/'">Here to see all the stored students</button>
+    </div>
 </div>
 </body>
 </html>
